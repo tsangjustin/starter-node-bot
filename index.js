@@ -1,5 +1,6 @@
 var Botkit = require('botkit')
 
+// Pulled from command line: "SLACK_TOKEN="API TOKEN" npm start
 var token = process.env.SLACK_TOKEN
 
 var controller = Botkit.slackbot({
@@ -30,19 +31,23 @@ controller.on('bot_channel_join', function (bot, message) {
   bot.reply(message, "I'm here!")
 })
 
+// If type in channel: "@bot_starter. hi"
 controller.hears(['hello', 'hi'], ['direct_mention'], function (bot, message) {
   bot.reply(message, 'Hello.')
 })
 
+// If type in direct message: "hi"
 controller.hears(['hello', 'hi'], ['direct_message'], function (bot, message) {
   bot.reply(message, 'Hello.')
   bot.reply(message, 'It\'s nice to talk to you directly.')
 })
 
+// If type in channel: "* @bot_starter *"
 controller.hears('.*', ['mention'], function (bot, message) {
   bot.reply(message, 'You really do care about me. :heart:')
 })
 
+// If type in channel or DM: "@bot_starter. help"
 controller.hears('help', ['direct_message', 'direct_mention'], function (bot, message) {
   var help = 'I will respond to the following messages: \n' +
       '`bot hi` for a simple message.\n' +
@@ -52,6 +57,7 @@ controller.hears('help', ['direct_message', 'direct_mention'], function (bot, me
   bot.reply(message, help)
 })
 
+// If type in channel or DM: "@bot_starter. attachment"
 controller.hears(['attachment'], ['direct_message', 'direct_mention'], function (bot, message) {
   var text = 'Beep Beep Boop is a ridiculously simple hosting platform for your Slackbots.'
   var attachments = [{
@@ -63,7 +69,7 @@ controller.hears(['attachment'], ['direct_message', 'direct_mention'], function 
     text: text,
     color: '#7CD197'
   }]
-
+  
   bot.reply(message, {
     attachments: attachments
   }, function (err, resp) {
@@ -71,6 +77,7 @@ controller.hears(['attachment'], ['direct_message', 'direct_mention'], function 
   })
 })
 
+// If does not fit any cases above, but bot mentioned
 controller.hears('.*', ['direct_message', 'direct_mention'], function (bot, message) {
   bot.reply(message, 'Sorry <@' + message.user + '>, I don\'t understand. \n')
 })
