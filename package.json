@@ -15,7 +15,7 @@
     "bot",
     "slack"
   ],
-  "author": "",
+  "author": "Justin T",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/beepboophq/node-slack-bot/issues"
